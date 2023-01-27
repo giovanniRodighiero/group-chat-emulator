@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Message, User } from "../../types";
+import getRandomId from "../../services/getRandomId";
 
 interface useChatI {
     /** Chat's messages */
@@ -23,7 +24,7 @@ function useChat(): useChatI {
                 content,
                 datetime: new Date(),
                 user: User.EndUser,
-                id: Date.now().toString(),
+                id: getRandomId(),
             },
         ]);
     };

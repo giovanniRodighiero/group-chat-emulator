@@ -1,11 +1,18 @@
+import { Mock } from "vitest";
 import { renderHook, act } from "../../tools/testUtils";
 
 import { User } from "../../types";
 import useChat from "./useChat";
+import getRandomId from "../../services/getRandomId";
+
+vi.mock("../../services/getRandomId", () => ({
+    default: vi.fn(() => "aaa"),
+}));
 
 describe("useChat Hook", () => {
     beforeEach(() => {
         vi.useFakeTimers();
+        vi.clearAllMocks();
     });
     afterEach(() => {
         vi.useRealTimers();
@@ -34,10 +41,12 @@ describe("useChat Hook", () => {
         expect(result.current.logs.at(0)?.datetime.valueOf()).toBe(
             firstDate.valueOf()
         );
-        expect(result.current.logs.at(0)?.id).toBeDefined();
+        expect(result.current.logs.at(0)?.id).toBe("aaa");
+        expect(vi.mocked(getRandomId)).toHaveBeenCalledTimes(1);
 
         const secondDate = new Date(2022, 11, 12);
         vi.setSystemTime(secondDate);
+        vi.mocked(getRandomId).mockImplementation(() => "bbb");
         act(() => {
             result.current.sendMessage("tell me a joke");
         });
@@ -50,8 +59,7 @@ describe("useChat Hook", () => {
         expect(result.current.logs.at(1)?.datetime.valueOf()).toBe(
             secondDate.valueOf()
         );
-        expect(result.current.logs.at(0)?.id).not.toBe(
-            result.current.logs.at(1)?.id
-        );
+        expect(result.current.logs.at(1)?.id).toBe("bbb");
+        expect(vi.mocked(getRandomId)).toHaveBeenCalledTimes(2);
     });
 });
