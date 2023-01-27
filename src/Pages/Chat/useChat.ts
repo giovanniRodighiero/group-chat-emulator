@@ -7,8 +7,11 @@ interface useChatI {
     /** Chat's messages */
     logs: Message[];
 
-    /** Adds a new message from the User */
+    /** Adds a new message sent by the User */
     sendMessage: (content: string) => void;
+
+    /** Deletes an existing message sent by the User */
+    deleteMessage: (msgId: string) => void;
 }
 
 /**
@@ -29,9 +32,21 @@ function useChat(): useChatI {
         ]);
     };
 
+    const deleteMessage = (msgId: string) => {
+        const logIndex = logs.findIndex(log => log.id === msgId);
+        if (logIndex > -1) {
+            setLogs(oldLogs => {
+                const newLogs = [...oldLogs];
+                newLogs.splice(logIndex, 1);
+                return newLogs;
+            });
+        }
+    };
+
     return {
         logs,
         sendMessage,
+        deleteMessage,
     };
 }
 
