@@ -28,8 +28,17 @@ function Message({ message, onDelete }: MessageProps) {
         return `${date}, ${time}`;
     }, [message.datetime]);
 
-    const styles = clsx("flex my-2 first:mt-auto", {
+    const containerStyle = clsx({
         "justify-end": message.user === User.EndUser,
+    });
+    const btnStyle = clsx({
+        "right-0 translate-x-1/2": message.user !== User.EndUser,
+        "left-0 -translate-x-1/2": message.user === User.EndUser,
+    });
+    const usernameStyle = clsx({
+        "text-right text-cyan-500": message.user === User.EndUser,
+        "text-pink-500": message.user === User.Mario,
+        "text-lime-500": message.user === User.Luigi,
     });
 
     React.useEffect(() => {
@@ -37,11 +46,11 @@ function Message({ message, onDelete }: MessageProps) {
     }, []);
 
     return (
-        <li className={styles} ref={elRef}>
+        <li className={`my-2 flex first:mt-auto ${containerStyle}`} ref={elRef}>
             <div className="group relative max-w-sm rounded-xl bg-slate-50 py-1 px-2">
                 <button
                     aria-label="delete message"
-                    className="absolute left-0 top-0 z-10 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 scale-0 items-center justify-center rounded-full border border-white bg-red-500 opacity-0 transition-transform  focus:scale-100 focus:opacity-100  group-hover:scale-100 group-hover:opacity-100"
+                    className={`absolute top-0 z-10 flex h-10 w-10  -translate-y-1/2 scale-0 items-center justify-center rounded-full border border-white bg-red-500 opacity-0 transition-transform  focus:scale-100 focus:opacity-100  group-hover:scale-100 group-hover:opacity-100 ${btnStyle}`}
                     onClick={() => onDelete(message.id)}
                 >
                     <svg
@@ -63,7 +72,7 @@ function Message({ message, onDelete }: MessageProps) {
                         <line x1="14" y1="11" x2="14" y2="17"></line>
                     </svg>
                 </button>
-                <span className="block text-right font-bold capitalize">
+                <span className={`block font-bold capitalize ${usernameStyle}`}>
                     {NAMES[message.user]}
                 </span>
                 <p className="text-lg">{message.content}</p>
