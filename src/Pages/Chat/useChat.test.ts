@@ -1,4 +1,4 @@
-import { renderHook, act, waitFor } from "../../tools/testUtils";
+import { renderHook, act } from "../../tools/testUtils";
 
 import { User } from "../../types";
 import useChat from "./useChat";

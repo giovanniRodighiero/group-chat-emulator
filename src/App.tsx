@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React from "react";
+
+import Chat from "./Pages/Chat";
 
 function App() {
-    const [count, setCount] = useState(0);
-
-    return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+    return <Chat />;
 }
 
 export default App;
