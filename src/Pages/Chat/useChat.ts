@@ -4,7 +4,8 @@ import { Message, User } from "../../types";
 import getRandomId from "../../services/getRandomId";
 import * as Api from "../../services/Api";
 
-const LUIGI_INTERVAL = 5000; //ms
+/** How much time should Luigi wait before his next insult */
+const LUIGI_INTERVAL = 10000; //ms
 
 interface useChatI {
     /** Chat's messages */
