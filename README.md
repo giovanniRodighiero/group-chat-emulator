@@ -24,8 +24,17 @@ Bonus: persist the state of the application, allowing refresh page without losin
 
 ## Dev Instructions
 * `npm install`
-* rename `.env-sample` to `.env` and change the variables values accordingly
+*  copy `.env-sample` and rename it `.env`, then change the variables values accordingly
 * `npm run dev` starts the web server in development `localhost:3000`
 * `npm run test` runs the unit tests`
 * `npm run build` bundles the code for production
 * Luigi is set to send his message every 10 seconds
+
+## Env variables
+```
+VITE_HUMOR_APIKEY=your_api_key // api key
+VITE_HUMOR_INSULT_REASON=commited the node_modules // Humorapi "insult" requires the name of the person to insult
+VITE_HUMOR_USER_NAME=Giovanni // Humorapi "insult" requires the reason for insulting the person
+VITE_LUIGI_FREQ=15000 // Frequency for Luigi's message
+VITE_PERSIST_CHAT=false // Should the chat persist or not in the browser [true | false]
+```
