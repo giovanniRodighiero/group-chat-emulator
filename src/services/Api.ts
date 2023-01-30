@@ -47,7 +47,7 @@ export async function getRandomInsult(): Promise<httpResponse> {
     try {
         const { data } = await axiosInstance.get<{ text: string }>("insult", {
             params: {
-                name: import.meta.env.VITE_USER_NAME,
+                name: import.meta.env.VITE_HUMOR_USER_NAME,
                 reason: import.meta.env.VITE_HUMOR_INSULT_REASON,
             },
         });

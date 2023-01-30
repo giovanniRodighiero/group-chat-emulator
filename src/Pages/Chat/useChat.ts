@@ -5,7 +5,7 @@ import getRandomId from "../../services/getRandomId";
 import * as Api from "../../services/Api";
 
 /** How much time should Luigi wait before his next insult */
-const LUIGI_INTERVAL = 10000; //ms
+const LUIGI_INTERVAL = parseInt(import.meta.env.VITE_LUIGI_FREQ); //ms
 
 const LOCALSTORAGE_KEY = "@chat";
 
