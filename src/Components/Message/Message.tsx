@@ -3,8 +3,12 @@ import clsx from "clsx";
 
 import { Message as MessageI, User } from "../../types";
 
+export interface InMemoryMessage extends Omit<MessageI, "datetime"> {
+    datetime: Date;
+}
+
 interface MessageProps {
-    message: MessageI;
+    message: InMemoryMessage;
     onDelete: (msgId: string) => void;
 }
 
@@ -47,7 +51,7 @@ function Message({ message, onDelete }: MessageProps) {
 
     return (
         <li className={`my-2 flex first:mt-auto ${containerStyle}`} ref={elRef}>
-            <div className="group relative max-w-sm rounded-xl bg-slate-50 py-1 px-2">
+            <div className="group relative max-w-[90%] rounded-xl bg-slate-50 py-1 px-2 sm:max-w-sm">
                 <button
                     aria-label="delete message"
                     className={`absolute top-0 z-10 flex h-10 w-10  -translate-y-1/2 scale-0 items-center justify-center rounded-full border border-white bg-red-500 opacity-0 transition-transform  focus:scale-100 focus:opacity-100  group-hover:scale-100 group-hover:opacity-100 ${btnStyle}`}

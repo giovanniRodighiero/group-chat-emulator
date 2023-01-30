@@ -15,7 +15,10 @@ function MessageList({ messages, onDelete }: MessageProps) {
                 <ul className="flex flex-1 flex-col  overflow-y-auto">
                     {messages.map(message => (
                         <Message
-                            message={message}
+                            message={{
+                                ...message,
+                                datetime: new Date(message.datetime),
+                            }}
                             onDelete={onDelete}
                             key={message.id}
                         />

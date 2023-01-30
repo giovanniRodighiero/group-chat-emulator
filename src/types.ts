@@ -14,6 +14,6 @@ export interface Message {
     id: string;
     content: string;
     user: User;
-    datetime: Date;
+    datetime: string;
     replied?: boolean;
 }

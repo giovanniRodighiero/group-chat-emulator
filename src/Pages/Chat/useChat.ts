@@ -7,6 +7,8 @@ import * as Api from "../../services/Api";
 /** How much time should Luigi wait before his next insult */
 const LUIGI_INTERVAL = 10000; //ms
 
+const LOCALSTORAGE_KEY = "@chat";
+
 interface useChatI {
     /** Chat's messages */
     logs: Message[];
@@ -21,21 +23,23 @@ interface useChatI {
 /**
  * The hook that manages the chat's state
  */
-function useChat(): useChatI {
+function useChat(persistChat = false): useChatI {
     const [logs, setLogs] = React.useState<Message[]>([]);
     const intervalRef = React.useRef<NodeJS.Timer | null>(null);
 
     React.useEffect(() => {
-        sendMessageFromMario();
-    }, [logs.length]);
+        if (persistChat) loadChatLogs();
 
-    React.useEffect(() => {
         intervalRef.current = setInterval(sendMessageFromLuigi, LUIGI_INTERVAL);
 
         return function cleanUseChat() {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
     }, []);
+
+    React.useEffect(() => {
+        sendMessageFromMario();
+    }, [logs.length]);
 
     /** Mario replies with a joke to every user message */
     const sendMessageFromMario = async () => {
@@ -61,15 +65,19 @@ function useChat(): useChatI {
     };
 
     const sendMessage = (content: string, user: User = User.EndUser) => {
-        setLogs(prev => [
-            ...prev,
-            {
-                content,
-                datetime: new Date(),
-                user,
-                id: getRandomId(),
-            },
-        ]);
+        setLogs(prev => {
+            const newLogs = [
+                ...prev,
+                {
+                    content,
+                    datetime: new Date().toISOString(),
+                    user,
+                    id: getRandomId(),
+                },
+            ];
+            if (persistChat) saveChatLogs(newLogs);
+            return newLogs;
+        });
     };
 
     const deleteMessage = (msgId: string) => {
@@ -80,6 +88,26 @@ function useChat(): useChatI {
                 newLogs.splice(logIndex, 1);
                 return newLogs;
             });
+        }
+    };
+
+    const loadChatLogs = () => {
+        try {
+            const logsAsString = localStorage.getItem(LOCALSTORAGE_KEY);
+            if (!!logsAsString) {
+                const logsAsJson = JSON.parse(logsAsString);
+                setLogs(logsAsJson);
+            }
+        } catch (error) {
+            console.warn("Logs cannot be transformed to a valid json.");
+        }
+    };
+    const saveChatLogs = (newLogs: Message[]) => {
+        try {
+            const logsAsString = JSON.stringify(newLogs);
+            localStorage.setItem(LOCALSTORAGE_KEY, logsAsString);
+        } catch (error) {
+            console.warn("Logs cannot be transformed to a valid string.");
         }
     };
 

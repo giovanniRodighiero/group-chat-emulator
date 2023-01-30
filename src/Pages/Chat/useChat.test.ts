@@ -36,9 +36,8 @@ describe("useChat Hook", () => {
         expect(result.current.logs).toHaveLength(1);
         expect(result.current.logs.at(0)?.content).toBe("hello world");
         expect(result.current.logs.at(0)?.user).toBe(User.EndUser);
-        expect(result.current.logs.at(0)?.datetime).toBeInstanceOf(Date);
-        expect(result.current.logs.at(0)?.datetime.valueOf()).toBe(
-            firstDate.valueOf()
+        expect(result.current.logs.at(0)?.datetime).toBe(
+            firstDate.toISOString()
         );
         expect(result.current.logs.at(0)?.id).toBe("aaa");
         expect(vi.mocked(getRandomId)).toHaveBeenCalledTimes(1);
@@ -53,11 +52,10 @@ describe("useChat Hook", () => {
         expect(result.current.logs).toHaveLength(2);
         expect(result.current.logs.at(1)?.content).toBe("tell me a joke");
         expect(result.current.logs.at(1)?.user).toBe(User.EndUser);
-        expect(result.current.logs.at(1)?.datetime).toBeInstanceOf(Date);
-        expect(result.current.logs.at(1)?.id).toBeDefined();
-        expect(result.current.logs.at(1)?.datetime.valueOf()).toBe(
-            secondDate.valueOf()
+        expect(result.current.logs.at(1)?.datetime).toBe(
+            secondDate.toISOString()
         );
+        expect(result.current.logs.at(1)?.id).toBeDefined();
         expect(result.current.logs.at(1)?.id).toBe("bbb");
         expect(vi.mocked(getRandomId)).toHaveBeenCalledTimes(2);
     });
@@ -88,11 +86,10 @@ describe("useChat Hook", () => {
         expect(result.current.logs).toHaveLength(1);
         expect(result.current.logs.at(0)?.content).toBe("tell me a joke");
         expect(result.current.logs.at(0)?.user).toBe(User.EndUser);
-        expect(result.current.logs.at(0)?.datetime).toBeInstanceOf(Date);
-        expect(result.current.logs.at(0)?.id).toBeDefined();
-        expect(result.current.logs.at(0)?.datetime.valueOf()).toBe(
-            secondDate.valueOf()
+        expect(result.current.logs.at(0)?.datetime).toBe(
+            secondDate.toISOString()
         );
+        expect(result.current.logs.at(0)?.id).toBeDefined();
         expect(result.current.logs.at(0)?.id).toBe("bbb");
         expect(vi.mocked(getRandomId)).toHaveBeenCalledTimes(2);
     });

@@ -5,7 +5,7 @@ import MessageList from "../../Components/MessageList";
 import useChat from "./useChat";
 
 function Chat() {
-    const chat = useChat();
+    const chat = useChat(import.meta.env.VITE_PERSIST_CHAT === "true");
 
     return (
         <main>
